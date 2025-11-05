@@ -5,9 +5,6 @@ import json
 import logging
 from rich.logging import RichHandler
 
-HOST = '127.0.0.1'
-PORT = 5000
-
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -20,11 +17,11 @@ logging.basicConfig(
 
 log = logging.getLogger("rich")
 
-def start_client():
+def start_client(game_ip, game_port):
     log.info("Searching a server...")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    log.info(f"Server found ({HOST}:{PORT})")
+    s.connect((game_ip, game_port))
+    log.info(f"Server found ({game_ip}:{game_port})")
     log.info(f"Connected")
 
     game = None
