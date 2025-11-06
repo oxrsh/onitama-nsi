@@ -36,7 +36,7 @@ if client_type == 'host':
             log.info(f"Your IP: {external_ip} Port: {port}")
         else:
             log.info("Server started in local")
-            x = threading.Thread(target=start_server, args=('127.0.0.1', port, True))
+            x = threading.Thread(target=start_server, args=('0.0.0.0', port, True))
             x.start()
 
     start_client('127.0.0.1', port, False)

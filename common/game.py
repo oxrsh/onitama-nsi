@@ -57,9 +57,9 @@ class Game:
         # Vérifier si un Master a été capturé
         p1_pieces = self.board.get_pieces_by_player_id(self.player1.id)
         p2_pieces = self.board.get_pieces_by_player_id(self.player2.id)
-        
+        print(p1_pieces)
         p1_has_master = any(p.level == 1 for p in p1_pieces)
-        p2_has_master = any(p.level == 1 for p in p1_pieces)
+        p2_has_master = any(p.level == 1 for p in p2_pieces)
         
         if not p1_has_master:
             return True, self.player2
