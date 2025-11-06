@@ -27,12 +27,14 @@ def log(logging, msg, level='info'):
         elif level=='error':
             lg.error(msg)
 
-def start_client(game_ip, game_port):
-    log.info("Searching a server...")
+def start_client(game_ip, game_port, l:bool=True):
+    if l: log_init()
+
+    log(l, "Searching a server...")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((game_ip, game_port))
-    log.info(f"Server found ({game_ip}:{game_port})")
-    log.info(f"Connected")
+    log(l, f"Server found ({game_ip}:{game_port})")
+    log(l, f"Connected")
 
     game = None
     me = None
@@ -54,14 +56,14 @@ def start_client(game_ip, game_port):
 
             me = game.player1 if player_id == "1" else game.player2
 
-            log.info(f"You are {me}")
-            log.info("Waiting for your turn...")
+            log(l, f"You are {me}")
+            log(l, "Waiting for your turn...")
 
             print(game.render(me))
 
         elif msg.get('type') == 'your_turn':
             while True:
-                log.info("It's your turn")
+                log(l, "It's your turn")
 
                 me = game.player1 if player_id == "1" else game.player2
 
@@ -70,11 +72,11 @@ def start_client(game_ip, game_port):
                 to_pos = game.choose_movement(selected_card, from_pos.pos, me)
 
                 if not to_pos:
-                    log.error("No move is possible with this card and this piece.\nPress enter to retry...")
+                    log(l, "No move is possible with this card and this piece.\nPress enter to retry...", 'error')
                     input()
                 else:
                     envoi(s, {"type": "move", "card": selected_card.to_dict(), "piece": from_pos.to_dict(), "move": to_pos.to_dict()})
-                    log.info("Waiting for your turn...")
+                    log(l, "Waiting for your turn...")
                     break
 
         elif msg.get('type') == 'update':
@@ -89,14 +91,14 @@ def start_client(game_ip, game_port):
             print(game.render(me))
 
         elif msg.get('type') == 'invalid_move':
-            log.error("This move is invalid. Please try again")
+            log(l, "This move is invalid. Please try again", 'error')
 
         elif msg.get('type') == 'game_over':
             winner = Player.from_dict(msg.get('winner'))
-            log.info(f'Game over!\nWinner: {winner}')
+            log(l, f'Game over!\nWinner: {winner}')
             break
 
-    log.info("Press enter to close...")
+    log(l, "Press enter to close...")
     input()
     s.close()
 

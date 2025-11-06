@@ -18,9 +18,9 @@ class Game:
         self.current_player = player1
         self.cards = cards
 
-        import random
+        from random import shuffle
         all_cards = list(cards.cards)
-        random.shuffle(all_cards)
+        shuffle(all_cards)
         player1.set_cards(*all_cards[:2])
         player2.set_cards(*all_cards[2:4])
 
