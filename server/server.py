@@ -1,12 +1,10 @@
 from common import *
 import socket
-import logging
 import threading
-
-PORT = 5000
 
 def log_init():
     global lg
+    import logging
     from rich.logging import RichHandler
 
     logging.basicConfig(
@@ -30,11 +28,11 @@ def handle_game(game_id, player_1, player_2, game_cards, l):
     game.start()
     log(l, f"Game {game_id} | Ended")
 
-def start_server(l:bool = True):
+def start_server(address="0.0.0.0", port=9267, l:bool = True):
     if l: log_init()
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(("0.0.0.0", PORT))
+    s.bind((address, port))
     s.listen()
 
     connections = []

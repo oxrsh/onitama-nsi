@@ -2,20 +2,30 @@ from common import *
 from rich import print
 import socket
 import json
-import logging
-from rich.logging import RichHandler
 
 import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
-logging.basicConfig(
-    level="NOTSET",
-    format="%(message)s",
-    datefmt="[%X]",
-    handlers=[RichHandler()]
-)
+def log_init():
+    global lg
+    import logging
+    from rich.logging import RichHandler
 
-log = logging.getLogger("rich")
+    logging.basicConfig(
+        level="NOTSET",
+        format="%(message)s",
+        datefmt="[%X]",
+        handlers=[RichHandler()]
+    )
+
+    lg = logging.getLogger("rich")
+
+def log(logging, msg, level='info'):
+    if logging:
+        if level=='info':
+            lg.info(msg)
+        elif level=='error':
+            lg.error(msg)
 
 def start_client(game_ip, game_port):
     log.info("Searching a server...")
