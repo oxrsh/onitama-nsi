@@ -98,8 +98,6 @@ def start_client(game_ip, game_port, l:bool=True):
             log(l, f'Game over!\nWinner: {winner}')
             break
 
-    log(l, "Press enter to close...")
-    input()
     s.close()
 
 if __name__ == '__main__':

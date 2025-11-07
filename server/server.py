@@ -28,7 +28,7 @@ def handle_game(game_id, player_1, player_2, game_cards, l):
     game.start()
     log(l, f"Game {game_id} | Ended")
 
-def start_server(address="0.0.0.0", port=9267, l:bool = True):
+def start_server(address="0.0.0.0", port=9267, l:bool = True, in_client=False):
     if l: log_init()
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,6 +56,10 @@ def start_server(address="0.0.0.0", port=9267, l:bool = True):
 
         thread = threading.Thread(target=handle_game, args=(game_id_incr, player_1, player_2, game_cards, l))
         thread.start()
+
+        if in_client:
+            thread.join()
+            return
 
         connections = []
         game_id_incr += 1
