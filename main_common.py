@@ -35,8 +35,6 @@ def main():
 
         play_again = True
         while play_again:
-            x = threading.Thread(target=start_server, args=('0.0.0.0', port, True, True))
-            x.start()
             start_client(game_ip, game_port, False)
             play_again = Confirm.ask("Play again?")
 
